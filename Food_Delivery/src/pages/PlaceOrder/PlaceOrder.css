@@ -1,0 +1,33 @@
+.place-order{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-top: 100px;
+}
+
+.place-order-left{
+    width: 100%;
+    max-width: max(30%,500px);
+}
+
+.place-order-left .title{
+    font-size: 30px;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.place-order-left input{
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border: 1px solid #d0d0d0;
+    outline-color: tomato;
+    padding: 5px 8px;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.place-order-left .multi-fields{
+    display: flex;
+    gap: 6px;
+}
