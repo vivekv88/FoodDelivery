@@ -31,3 +31,12 @@
     display: flex;
     gap: 6px;
 }
+
+.place-order-right{
+    width: 100%;
+    max-width: max(25%,400px);
+}
+
+.place-order .cart-total button{
+    margin-top: 30px;
+}
