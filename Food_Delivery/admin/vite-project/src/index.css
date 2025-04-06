@@ -9,7 +9,7 @@
 
 body{
   min-height: 100vh;
-  background-color: #bba1c2;
+  background-color: #fcfcfc;
 }
 
 a{
@@ -21,4 +21,8 @@ hr{
   height: 1px;
   border: none;
   background-color: #a9a9a9;
+}
+
+.app-content{
+  display: flex;
 }
