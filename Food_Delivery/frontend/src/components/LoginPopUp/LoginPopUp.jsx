@@ -1,24 +1,56 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './LoginPopUp.css'
 import { assets } from '../../assets/frontend_assets/assets'
+import { StoreContext } from '../../context/StoreContext'
+import axios from 'axios'
 
 const LoginPopUp = ({setShowLogin}) => {
 
+    const {url} = useContext(StoreContext)
     const [currState,setCurrState] = useState("Login")
+    const [data,setData] = useState({
+      name:"",
+      email:"",
+      password:""
+    })
+
+
+    const onChangeHandler = (event) =>{
+      const name = event.target.name
+      const value = event.target.value
+      setData(data=>({...data,[name]:value}))
+    }
+
+    const onLogin = async (event) => {
+      event.preventDefault();
+      const newUrl = url;
+      if(currState === "Login"){
+        newUrl += "/api/user/login"
+      }
+      else{
+        newUrl += "/api/user/register"
+      }
+
+      const response = await axios.post(newUrl,data)
+      if(response.data.success){
+        
+      }
+
+    }
 
   return (
     <div className='login-popup'>
-      <form  className="login-popup-container">
+      <form onSubmit={onLogin} className="login-popup-container">
         <div className="login-popup-title">
             <h1>{currState}</h1>
             <img onClick={()=>setShowLogin(false)} src={assets.cross_icon} alt="" />
         </div>
         <div className="input-fields">
-            {currState==="Sign Up"?<input type="text" placeholder='Username' required />:<></>}
-            <input type="email" placeholder='Email' required />
-            <input type="password" placeholder='Password' required />
+            {currState==="Sign Up"?<input name='name' onChange={onChangeHandler} value={data.name} type="text" placeholder='Username' required />:<></>}
+            <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Email' required />
+            <input name='password' onChange={onChangeHandler} value={data.password} type="password" placeholder='Password' required />
         </div>
-        <button>{currState==="Sign Up"?"Create Account":"Login"}</button>
+        <button type='submit'>{currState==="Sign Up"?"Create Account":"Login"}</button>
         <div className="login-popup-condition">
             <input type="checkbox" required />
             <p>By clicking, you agree to our Terms & Conditions</p>
