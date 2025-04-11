@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import './Verify.css'
 import { useSearchParams } from 'react-router-dom'
 import { StoreContext } from '../../context/StoreContext';
+import axios from 'axios';
 
 const Verify = () => {
 
@@ -9,6 +10,13 @@ const Verify = () => {
     const success = searchParams.get("success")
     const orderId = searchParams.get("orderId")
     const {url} = useContext(StoreContext)
+
+    const verifyOrder = async () => {
+      const response = await axios.post(url+"/api/order/verify",{success,orderId})
+      if(response.data.success){
+        
+      }
+    }
     
 
   return (
