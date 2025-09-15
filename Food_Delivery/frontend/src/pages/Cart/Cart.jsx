@@ -27,9 +27,9 @@ const Cart = () => {
                 <div className="cart-items-title cart-items-item">
                   <img src={url+"/images/"+items.image} alt="" />
                   <p>{items.name}</p>
-                  <p>${items.price}</p>
+                  <p>₹{items.price}</p>
                   <p>{cartItems[items._id]}</p>
-                  <p>${items.price * cartItems[items._id]}</p>
+                  <p>₹{items.price * cartItems[items._id]}</p>
                   <p onClick={() => removeFromCart(items._id)} className='cross'>x</p>
                 </div>
                 <hr />
