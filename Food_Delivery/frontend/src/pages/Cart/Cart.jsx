@@ -25,7 +25,7 @@ const Cart = () => {
             return (
               <div>
                 <div className="cart-items-title cart-items-item">
-                  <img src={url+"/images/"+items.image} alt="" />
+                  <img src={url + "/images/" + items.image} alt="" />
                   <p>{items.name}</p>
                   <p>₹{items.price}</p>
                   <p>{cartItems[items._id]}</p>
@@ -51,14 +51,19 @@ const Cart = () => {
             <hr />
             <div className="cart-total-details">
               <p>Delivery Fee</p>
-              <p>₹{getTotalCartAmount()===0?0:2}</p>
+              <p>₹{getTotalCartAmount() === 0 ? 0 : 2}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <b>Total</b>
-              <b>₹{getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
+              <b>₹{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
             </div>
-            <button onClick={()=>navigate('/order')}>PROCEED TO CHECKOUT</button>
+            {getTotalCartAmount() > 0 ? (
+              <button onClick={() => navigate('/order')}>PROCEED TO CHECKOUT</button>
+            ) : (
+              <button onClick={() => navigate('/')}>Continue Shopping</button>
+            )}
+
           </div>
         </div>
         <div className="cart-promocode">
