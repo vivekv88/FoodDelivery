@@ -221,3 +221,7 @@ body.dark-mode {
   background-color: #121212;
   color: #ffffff;
 }
+
+.switch .toggle-slider{
+    display: flex;
+}

@@ -20,11 +20,12 @@
     width: 100%;
     font-size: 14px;
     margin-bottom: 10px;
-    border: 1px solid #d0d0d0;
-    outline-color: tomato;
+    border: 1px solid #5c5c5c;
+    outline : none;
     padding: 5px 8px;
     border-radius: 4px;
     background: transparent;
+    color: gray;
 }
 
 .place-order-left .multi-fields{
@@ -37,6 +38,6 @@
     max-width: max(25%,400px);
 }
 
-.place-order .cart-total button{
+.place-order .cart-total .btn-green{
     margin-top: 30px;
 }

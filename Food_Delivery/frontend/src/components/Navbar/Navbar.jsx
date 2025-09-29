@@ -50,6 +50,7 @@ const Navbar = ({ setShowLogin }) => {
             onChange={() => setDarkMode(!darkMode)}
           />
           <span className="slider"></span>
+          
         </label>
 
         {!token ? <button onClick={() => setShowLogin(true)}>Sign In</button> :
