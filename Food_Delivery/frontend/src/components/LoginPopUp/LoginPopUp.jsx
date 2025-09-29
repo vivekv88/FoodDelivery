@@ -67,7 +67,7 @@ const LoginPopUp = ({ setShowLogin }) => {
   // Handle OTP verification → activates account
   const onVerifyOtp = async () => {
     try {
-      const response = await axios.post(`${url}/api/user/verify-otp`, {
+      const response = await axios.post(`${url}/api/user/verifyOtp`, {
         email: data.email,
         otp: otp
       });

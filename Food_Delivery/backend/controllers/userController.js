@@ -182,6 +182,8 @@ const registerUser = async (req, res) => {
 // 📌 STEP 2: Verify OTP → Activate account
 const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
+  console.log(otp);
+  
 
   try {
     const user = await userModel.findOne({ email });
@@ -207,7 +209,7 @@ const verifyOtp = async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Email verified successfully! Account created.",
+      message: "Email verified successfully! Account created and Logged In Successfully.",
       token,
     });
 
