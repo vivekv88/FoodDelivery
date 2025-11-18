@@ -27,7 +27,7 @@ const LoginPopUp = ({ setShowLogin }) => {
   const onLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${url}/api/user/login`, {
+      const response = await axios.post(`${url}/api/user/loginUser`, {
         email: data.email,
         password: data.password
       });
@@ -48,7 +48,7 @@ const LoginPopUp = ({ setShowLogin }) => {
   const onRegister = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${url}/api/user/register`, {
+      const response = await axios.post(`${url}/api/user/registerUser`, {
         name: data.name,
         email: data.email,
         password: data.password
