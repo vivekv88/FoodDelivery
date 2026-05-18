@@ -8,8 +8,8 @@ const StoreContextProvider = (props) => {
     const [cartItems,setCartItems] = useState({})
     const [token,setToken] = useState("");
     const [food_list,setFoodList] = useState([])
-    // const url = "https://fooddelivery-backend-a5cu.onrender.com"
-    const url = "http://localhost:3000"
+    const url = "https://fooddelivery-backend-a5cu.onrender.com"
+    // const url = "http://localhost:3000"
 
     const addToCart = async (itemId) => {
         if(!cartItems[itemId]){

@@ -14,5 +14,5 @@ export const assets ={
     parcel_icon
 }
 
-// export const url = 'https://fooddelivery-backend-a5cu.onrender.com'
-export const url = 'http://localhost:3000'
+export const url = 'https://fooddelivery-backend-a5cu.onrender.com'
+// export const url = 'http://localhost:3000'
