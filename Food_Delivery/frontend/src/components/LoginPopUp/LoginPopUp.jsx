@@ -22,7 +22,8 @@ const LoginPopUp = ({setShowLogin}) => {
     }
 
     const onLogin = async (event) => {
-      event.preventDefault();
+        try{
+            event.preventDefault();
       let newUrl = url;
       if(currState === "Login"){
         newUrl += "/api/user/loginUser"
@@ -37,7 +38,8 @@ const LoginPopUp = ({setShowLogin}) => {
         localStorage.setItem("token",response.data.token)
         setShowLogin(false)
       }
-    } catch (err) {
+        }
+    catch(err) {
       if (err.response) alert(err.response.data.message || "Invalid OTP");
       else alert("Network or server error");
     }
