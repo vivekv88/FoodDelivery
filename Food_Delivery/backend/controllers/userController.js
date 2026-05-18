@@ -144,16 +144,6 @@ const registerUser = async (req, res) => {
 
     // ✅ Generate OTP
     const otp = crypto.randomInt(100000, 999999).toString();
-
-    // ✅ Send OTP via Mailgun
-    await mg.messages.create(process.env.MAILGUN_DOMAIN, {
-      from: `Tomato <no-reply@${process.env.MAILGUN_DOMAIN}>`,
-      to: [email],
-      subject: "Verify your Email - OTP",
-      text: `Hello ${name},\n\nYour OTP is: ${otp}\n\nIt is valid for 10 minutes.`,
-    });
-
-    // ✅ Save user temporarily with OTP (account not active yet)
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -168,9 +158,28 @@ const registerUser = async (req, res) => {
 
     await newUser.save();
 
+    try {
+      if (process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN) {
+        await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+          from: `Tomato <no-reply@${process.env.MAILGUN_DOMAIN}>`,
+          to: [email],
+          subject: "Verify your Email - OTP",
+          text: `Hello ${name},\n\nYour OTP is: ${otp}\n\nIt is valid for 10 minutes.`,
+        });
+
+        return res.json({
+          success: true,
+          message: "OTP sent to your email. Please verify to complete registration.",
+        });
+      }
+    } catch (mailError) {
+      console.error("Mailgun delivery failed:", mailError);
+    }
+
     return res.json({
       success: true,
-      message: "OTP sent to your email. Please verify to complete registration.",
+      message: "OTP email could not be sent. Use the fallback OTP shown below to verify your account.",
+      otp,
     });
 
   } catch (error) {

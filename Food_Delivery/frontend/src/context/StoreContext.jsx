@@ -8,7 +8,8 @@ const StoreContextProvider = (props) => {
     const [cartItems,setCartItems] = useState({})
     const [token,setToken] = useState("");
     const [food_list,setFoodList] = useState([])
-    const url = "https://fooddelivery-backend-a5cu.onrender.com"
+    // const url = "https://fooddelivery-backend-a5cu.onrender.com"
+    const url = "http://localhost:3000"
 
     const addToCart = async (itemId) => {
         if(!cartItems[itemId]){
@@ -45,8 +46,13 @@ const StoreContextProvider = (props) => {
     };
 
     const fetchFoodList = async () => {
-        const response = await axios.get(url+"/api/food/list")
-        setFoodList(response.data.data)
+        try {
+            const response = await axios.get(url+"/api/food/list")
+            setFoodList(response.data.data || [])
+        } catch (error) {
+            console.error("Failed to load food list:", error)
+            setFoodList([])
+        }
     }
 
     const loadCartData = async (token) => {
