@@ -8,6 +8,8 @@ const LoginPopUp = ({setShowLogin}) => {
 
     const {url,setToken} = useContext(StoreContext)
     const [currState,setCurrState] = useState("Login")
+    const [otpSent, setOtpSent] = useState(false)
+    const [otp, setOtp] = useState("")
     const [data,setData] = useState({
       name:"",
       email:"",
@@ -21,36 +23,67 @@ const LoginPopUp = ({setShowLogin}) => {
       setData(data=>({...data,[name]:value}))
     }
 
-    const onLogin = async (event) => {
-        try{
-            event.preventDefault();
-      let newUrl = url;
-      if(currState === "Login"){
-        newUrl += "/api/user/loginUser"
-      }
-      else{
-        newUrl += "/api/user/register"
-      }
-
-      const response = await axios.post(newUrl,data)
-      if(response.data.success){
-        setToken(response.data.token)
-        localStorage.setItem("token",response.data.token)
-        setShowLogin(false)
-      }
-        }
-    catch(err) {
-      if (err.response) alert(err.response.data.message || "Invalid OTP");
-      else alert("Network or server error");
+    const resetSignupFlow = () => {
+      setOtpSent(false)
+      setOtp("")
     }
-  };
+
+    const onLogin = async (event) => {
+        event.preventDefault();
+
+        try {
+          const response = await axios.post(url + "/api/user/login", data)
+          if(response.data.success){
+            setToken(response.data.token)
+            localStorage.setItem("token",response.data.token)
+            setShowLogin(false)
+          }
+        } catch(err) {
+          if (err.response) alert(err.response.data.message || "Login failed")
+          else alert("Network or server error")
+        }
+    }
+
+    const onRegister = async (event) => {
+      event.preventDefault();
+
+      try {
+        const response = await axios.post(url + "/api/user/register", data)
+        if (response.data.success) {
+          setOtpSent(true)
+          setOtp("")
+          alert(response.data.message || "OTP sent to your email")
+        }
+      } catch (err) {
+        if (err.response) alert(err.response.data.message || "Registration failed")
+        else alert("Network or server error")
+      }
+    }
+
+    const onVerifyOtp = async (event) => {
+      event.preventDefault();
+
+      try {
+        const response = await axios.post(url + "/api/user/verifyOtp", {
+          email: data.email,
+          otp,
+        })
+
+        if (response.data.success) {
+          setToken(response.data.token)
+          localStorage.setItem("token", response.data.token)
+          setShowLogin(false)
+        }
+      } catch (err) {
+        if (err.response) alert(err.response.data.message || "Invalid OTP")
+        else alert("Network or server error")
+      }
+    }
 
   return (
     <div className='login-popup'>
       <form
-        onSubmit={
-          currState === "Sign Up" && !otpSent ? onRegister : onLogin
-        }
+        onSubmit={currState === "Login" ? onLogin : otpSent ? onVerifyOtp : onRegister}
         className="login-popup-container"
       >
         <div className="login-popup-title">
@@ -109,19 +142,19 @@ const LoginPopUp = ({setShowLogin}) => {
         {!otpSent ? (
           <button type='submit'>{currState === "Sign Up" ? "Create Account" : "Login"}</button>
         ) : (
-          <button type='button' onClick={onVerifyOtp}>Verify OTP</button>
+          <button type='submit'>Verify OTP</button>
         )}
 
         {/* Toggle Sign Up / Login links */}
         {currState === "Login" ? (
           <p>Create a new account? <span onClick={() => {
             setCurrState("Sign Up");
-            setOtpSent(false);
+            resetSignupFlow();
           }}>Click here</span></p>
         ) : (
           <p>Already have an account? <span onClick={() => {
             setCurrState("Login");
-            setOtpSent(false);
+            resetSignupFlow();
           }}>Login here</span></p>
         )}
       </form>
